@@ -16,7 +16,10 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode right;
     public KeyCode jump;
 
-    private Vector3 moveDirection = Vector3.zero;
+    //private Vector3 moveDirection = Vector3.zero;
+
+    public bool isGrounded = false;
+
 
     void Start()
     {
@@ -28,37 +31,36 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
         if (Input.GetKey(left))
         {
-            rb.velocity = new Vector3(-speed, 0.0f, 0.0f);
-            Debug.Log("Player is moving left");
-            //moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 0.0f);
+            rb.velocity = new Vector3(-speed, rb.velocity.y, 0.0f);
+            //Debug.Log("Player is moving left");
         } else if (Input.GetKey(right))
         {
-            rb.velocity = new Vector3(speed, 0.0f, 0.0f);
-            Debug.Log("Player is moving right");
+            rb.velocity = new Vector3(speed, rb.velocity.y, 0.0f);
+            //Debug.Log("Player is moving right");
         } else
         {
-            rb.velocity = new Vector3(0.0f, 0.0f, 0.0f);
+            rb.velocity = new Vector3(0.0f, rb.velocity.y, 0.0f);
         }
 
-        if (cC.isGrounded)
+        if (Input.GetKeyDown(jump) && isGrounded)
         {
-            //moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 0.0f);
-            //moveDirection *= speed;
-            if (Input.GetKey(jump))
-            {
-                Debug.Log("Player has JUMPED!");
-                //moveDirection.y = jumpSpeed;
-                rb.velocity = new Vector3(0.0f, jumpSpeed, 0.0f);
-            }
+            Debug.Log("Player has JUMPED!");
+            //moveDirection.y = jumpSpeed;
+            rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, 0.0f);
+            isGrounded = false;
         }
 
-        //moveDirection.y -= gravity * Time.deltaTime;
-
-        // Move the controller
-        //cC.Move(moveDirection * Time.deltaTime);
-        //rb.MovePosition(transform.position + transform.right * Time.fixedDeltaTime);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Path"))
+        {
+            isGrounded = true;
+            Debug.Log("Player is touching Path");
+        }
     }
 
 }
