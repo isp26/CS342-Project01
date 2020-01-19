@@ -109,7 +109,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.collider.tag == "Obj")
+        if (collision.collider.tag == "Obj")
+            GameManager.gameManager.GameOver();
     }
 
     //isGrounded conditional statement

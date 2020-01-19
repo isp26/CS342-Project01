@@ -21,5 +21,10 @@ public class LineDrawer : MonoBehaviour
     {
         line.SetPosition(0, Cube1.position);
         line.SetPosition(1, Cube2.position);
+
+        if (Physics.Linecast(Cube1.position, Cube2.position, 1 << 9))
+        {
+            GameManager.gameManager.GameOver();
+        }
     }
 }
