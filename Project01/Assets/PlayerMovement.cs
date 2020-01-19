@@ -5,33 +5,33 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody rb;
-    CharacterController cC;
 
     public float speed;
-    public float jumpSpeed;
-    public float midairSpeed;
-    public float gravity;
+    public float jumpForce;
+    public float travelSpeed;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2.5f;
 
-    public KeyCode left;
-    public KeyCode right;
-    public KeyCode jump;
 
-    //private Vector3 moveDirection = Vector3.zero;
+    //Key bindings can be set individually.
+    public KeyCode left;            //'A' for P1. 'Left Arrow' for P2.
+    public KeyCode right;           //'W' for P1. 'Right Arrow' for P2.
+    public KeyCode jump;            //'D' for P1. 'Up Arrow' for P2.
 
-    public bool isGrounded = false;
-
+    private bool isGrounded = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        cC = GetComponent<CharacterController>();
-
-        //transform.position = new Vector3(-3.0f, 0.0f, 0.0f);
     }
 
     void Update()
     {
+        //Moves player forward continuously
+        //transform.position += Vector3.forward * Time.deltaTime * travelSpeed;
+        //rb.AddForce(0.0f, 0.0f, 9000f * Time.deltaTime);
 
+        //Basic left and right movement.
         if (Input.GetKey(left))
         {
             rb.velocity = new Vector3(-speed, rb.velocity.y, 0.0f);
@@ -45,15 +45,27 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(0.0f, rb.velocity.y, 0.0f);
         }
 
+        //Checks isGrounded status and if the jump key is pressed. Jumps.
         if (Input.GetKeyDown(jump) && isGrounded)
         {
-            Debug.Log("Player has JUMPED!");
-            //moveDirection.y = jumpSpeed;
-            rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, 0.0f);
-            isGrounded = false;
-        }
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, 0.0f);
+            //rb.velocity = Vector3.up * jumpSpeed;
 
+            isGrounded = false;
+            //Debug.Log("Player has JUMPED!");
+        } 
+
+        //if player is falling, this controls how fast they fall
+        if(rb.velocity.y < 0)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        } else if (rb.velocity.y > 0 && !Input.GetKey(jump))
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
     }
+
+    //isGrounded conditional statement
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Path"))
