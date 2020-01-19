@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float centerPos;
     public float centerHeight;
+    public float flowHeight;
     //public float speed;
     public float forwardSpeed;
 
@@ -101,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 nextPos = rb.position;
         nextPos.x = centerPos + nowPos;
-        nextPos.y = centerHeight + nowHeight;
+        nextPos.y = centerHeight + nowHeight * flowHeight;
         nextPos.z += forwardSpeed * Time.deltaTime;
         rb.MovePosition(nextPos);
     }

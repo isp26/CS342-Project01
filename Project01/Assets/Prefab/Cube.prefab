@@ -123,8 +123,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerPos: -2
-  jumpHeight: 0
+  centerHeight: 1
+  flowHeight: 2
   forwardSpeed: 1
   left: 97
   right: 100
-  jump: 119
+  up: 0
+  down: 0
