@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameOverUILogic : MonoBehaviour
 {
-    public static GameManager gameManager;
-
-    public GameObject gameOverUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = this;
+        
     }
 
     // Update is called once per frame
@@ -21,9 +18,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void GameOver()
+    public void OnRestartButtonPressed()
     {
-        Time.timeScale = 0.0f;
-        gameOverUI.SetActive(true);
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("test");
     }
 }
