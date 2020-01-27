@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     public float centerPos;
+    public float horizontalOffset;
     public float centerHeight;
     public float flowHeight;
     //public float speed;
@@ -101,15 +102,21 @@ public class PlayerMovement : MonoBehaviour
     void Movement()
     {
         Vector3 nextPos = rb.position;
-        nextPos.x = centerPos + nowPos;
+        nextPos.x = centerPos + nowPos * horizontalOffset;
         nextPos.y = centerHeight + nowHeight * flowHeight;
-        nextPos.z += forwardSpeed * Time.deltaTime;
+        //nextPos.z += forwardSpeed * Time.deltaTime;
         rb.MovePosition(nextPos);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Obj")
+            GameManager.gameManager.GameOver();
+    }*/
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Obj")
             GameManager.gameManager.GameOver();
     }
 
