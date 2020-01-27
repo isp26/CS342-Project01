@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     //public float speed;
     public float forwardSpeed;
 
+    AudioSource audioSource;
+
 
     //Key bindings can be set individually.
     public KeyCode left;            //'A' for P1. 'Left Arrow' for P2.
@@ -25,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     int nowPos = 0;
@@ -59,9 +62,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GetInput()
     {
-        
+        bool haveInput = false;
         if (Input.GetKeyDown(left))
         {
+            haveInput = true;
             nowPos -= 1;
             if (nowPos < -1)
                 nowPos = -1;
@@ -70,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(right))
         {
+            haveInput = true;
             nowPos += 1;
             if (nowPos > 1)
                 nowPos = 1;
@@ -81,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         //Checks isGrounded status and if the jump key is pressed. Jumps.
         if (Input.GetKeyDown(up))
         {
+            haveInput = true;
             nowHeight += 1;
             if (nowHeight > 1)
                 nowHeight = 1;
@@ -93,9 +99,14 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(down))
         {
+            haveInput = true;
             nowHeight -= 1;
             if (nowHeight < 0)
                 nowHeight = 0;
+        }
+        if (haveInput)
+        {
+            audioSource.Play();
         }
     }
 

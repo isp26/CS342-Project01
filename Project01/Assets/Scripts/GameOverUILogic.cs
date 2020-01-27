@@ -21,6 +21,6 @@ public class GameOverUILogic : MonoBehaviour
     public void OnRestartButtonPressed()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("test");
+        SceneManager.LoadScene("Modified");
     }
 }

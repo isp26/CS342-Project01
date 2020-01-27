@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    AudioSource audioSource;
+
     public static GameManager gameManager;
 
     public GameObject gameOverUI;
@@ -13,6 +15,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameManager = this;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        audioSource.Play();
         Time.timeScale = 0.0f;
         gameOverUI.SetActive(true);
     }
