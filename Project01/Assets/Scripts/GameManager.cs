@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        audioSource.Play();
+        //audioSource.Play();
         Time.timeScale = 0.0f;
         gameOverUI.SetActive(true);
     }
